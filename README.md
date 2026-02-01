@@ -24,6 +24,7 @@ tickets.csv → CSV Reader → LLM Client → Parser → tickets_evaluated.csv
 - [Requirements](docs/01-requirements.md) - Original assignment
 - [Analysis](docs/02-analysis.md) - Requirements analysis
 - [Solution Design](docs/03-solution-design.md) - Architecture and EU AI Act compliance
+- [Model Comparison](docs/04-model-comparison.md) - Benchmark results and price/quality analysis
 
 ## Functionality
 
