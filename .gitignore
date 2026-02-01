@@ -1,0 +1,29 @@
+# Environment
+.env
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Testing
+.pytest_cache/
+.coverage
+
+# Output
+tickets_evaluated.csv
+
+# OS
+.DS_Store
+
+# Claude
+.claude/
