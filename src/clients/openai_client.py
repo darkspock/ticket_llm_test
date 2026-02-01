@@ -23,6 +23,7 @@ class OpenAIClient(BaseLLMClient):
     def evaluate(self, ticket: str, reply: str) -> str:
         """Send evaluation request to OpenAI."""
         # o1 models don't support system messages or temperature != 1
+        # o1 uses reasoning tokens internally, needs more tokens (960+ for reasoning, ~60 for output)
         if self.model.startswith("o1"):
             response = self.client.chat.completions.create(
                 model=self.model,
@@ -34,7 +35,7 @@ class OpenAIClient(BaseLLMClient):
                         + EVALUATION_TEMPLATE.format(ticket=ticket, reply=reply),
                     },
                 ],
-                max_completion_tokens=500,
+                max_completion_tokens=2000,
             )
         else:
             response = self.client.chat.completions.create(

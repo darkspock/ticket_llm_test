@@ -15,9 +15,9 @@ Analysis of 6 LLM models evaluating 5 customer support tickets. Results compared
 | grok-deep | Grok (xAI) | 3.20 | 4.40 | 9.6 | No |
 | openai-fast | OpenAI | 3.40 | 4.40 | 10.1 | Yes |
 | openai-balanced | OpenAI | 3.40 | 4.60 | 6.8 | Yes |
-| openai-deep | OpenAI | 3.00 | 3.00 | 24.0 | No* |
+| openai-deep | OpenAI | 3.40 | 4.80 | 48.5 | No* |
 
-*o1 model doesn't support JSON mode, regex fallback failed to extract explanations
+*o1 model requires 2000+ tokens (uses ~960 for internal reasoning, ~60 for output)
 
 ---
 
@@ -44,9 +44,9 @@ Analysis of 6 LLM models evaluating 5 customer support tickets. Results compared
 | grok-deep | 5 | 4 | 4 |
 | openai-fast | 4 | 4 | 4 |
 | openai-balanced | 4 | 4 | 5 |
-| openai-deep | 1* | 1* | 1* |
+| openai-deep | 5 | 5 | 4 |
 
-*o1 failed to provide parseable explanations
+*o1 provides most detailed, critical evaluations but is 15x slower and 60x more expensive
 
 ### Scoring Patterns
 
@@ -69,10 +69,11 @@ Analysis of 6 LLM models evaluating 5 customer support tickets. Results compared
 - Excellent JSON compliance
 
 **OpenAI (deep/o1)**:
-- Not suitable for this use case
-- Reasoning model, not optimized for structured output
-- All scores defaulted to 3/3 due to parsing failures
-- Extremely slow and expensive
+- Most critical and thoughtful evaluations
+- Identifies nuances others miss (e.g., scored "unclear instructions" reply 2/5)
+- Requires 2000+ tokens (960 for reasoning, 60 for output)
+- 15x slower, 60x more expensive than gpt-4o-mini
+- Best for quality audits on small samples
 
 ---
 
@@ -87,7 +88,7 @@ Analysis of 6 LLM models evaluating 5 customer support tickets. Results compared
 | 3 | **groq-balanced** | Slightly better reasoning | When nuance matters |
 | 4 | **openai-balanced** | Premium quality | Quality-critical applications |
 | 5 | **grok-deep** | Deep analysis | Detailed audits, low volume |
-| 6 | openai-deep | Not recommended | Don't use for structured tasks |
+| 6 | **openai-deep** | Most critical | Quality audits, small samples |
 
 ---
 
@@ -150,11 +151,18 @@ Analysis of 6 LLM models evaluating 5 customer support tickets. Results compared
 
 ### 5. OpenAI o1
 
-**Verdict**: **NOT RECOMMENDED** for this use case.
-- Reasoning models are designed for complex problem-solving, not structured output
-- No JSON mode support causes parsing failures
+**Strengths**:
+- Most critical, thoughtful evaluations
+- Identifies nuances other models miss
+- High quality explanations with specific suggestions
+
+**Weaknesses**:
+- Requires 2000+ tokens (960 for reasoning, ~60 for output)
+- 15x slower than other models (48s vs 3s)
 - 60x more expensive than gpt-4o-mini
-- 8x slower than other models
+- No JSON mode (returns plain JSON)
+
+**Verdict**: Best for quality audits on small samples. Not cost-effective for high volume.
 
 ---
 
@@ -205,4 +213,4 @@ Monthly deep-dive: grok-deep (sample)
 
 **Best for EU**: `openai-fast` (gpt-4o-mini) - compliant and cost-effective
 
-**Avoid**: `openai-deep` (o1) - not designed for structured output tasks
+**Most Critical**: `openai-deep` (o1) - best for quality audits, 15x slower but most thorough
